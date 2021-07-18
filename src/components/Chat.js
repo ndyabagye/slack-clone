@@ -26,7 +26,7 @@ function Chat() {
             {/* list of messages */}
         </ChatMessages>
         <ChatInput
-            //channelName
+            channelName
             channelId={roomId}
         />
         </>
