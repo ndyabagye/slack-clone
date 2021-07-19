@@ -13,12 +13,16 @@ import AppsIcon from "@material-ui/icons/Apps";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AddIcon from "@material-ui/icons/Add";
-import {useCollection} from 'react-firebase-hooks/firestore';
-import {db} from '../firebase';
+import MenuIcon from '@material-ui/icons/Menu';
+import { useCollection } from 'react-firebase-hooks/firestore';
+import { auth, db } from '../firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 function Sidebar() {
-    const [channels, loading,error] = useCollection(db.collection('rooms'));
-    
+    const [channels] = useCollection(db.collection('rooms'));
+
+    const [user] = useAuthState(auth);
+
     return (
 
         <SidebarContainer>
@@ -27,26 +31,27 @@ function Sidebar() {
                     <h2>Slack Clone</h2>
                     <h3>
                         <FiberManualRecordIcon />
-                        Ndyabagye Henry
+                        {user.displayName}
                     </h3>
                 </SidebarInfo>
-                <CreateIcon/>
+                <MenuIcon />
+                <CreateIcon />
             </SidebarHeader>
 
-             <SidebarOption Icon ={InsertCommentIcon} title="Threads"/>
-             <SidebarOption Icon ={InboxIcon} title="Mentions & Reactions"/>
-             <SidebarOption Icon ={DraftsIcon} title="Saved items"/>
-             <SidebarOption Icon ={BookmarkBorderIcon} title="Channel browser"/>
-             <SidebarOption Icon ={PeopleAltIcon} title="People & user groups"/>
-             <SidebarOption Icon ={AppsIcon} title="Apps"/>
-             <SidebarOption Icon ={FileCopyIcon} title="File browser"/>
-             <SidebarOption Icon ={ExpandLessIcon} title="Show less"/>
-             <hr />
-             <SidebarOption Icon ={ExpandMoreIcon} title="Channels"/>
-             <hr />
-             <SidebarOption Icon ={AddIcon} addChannelOption title="Add channel"/>
-            {channels?.docs.map(doc=> (
-                <SidebarOption key={doc.id} id={doc.id}  title={doc.data().name}/>
+            <SidebarOption Icon={InsertCommentIcon} title="Threads" />
+            <SidebarOption Icon={InboxIcon} title="Mentions & Reactions" />
+            <SidebarOption Icon={DraftsIcon} title="Saved items" />
+            <SidebarOption Icon={BookmarkBorderIcon} title="Channel browser" />
+            <SidebarOption Icon={PeopleAltIcon} title="People & user groups" />
+            <SidebarOption Icon={AppsIcon} title="Apps" />
+            <SidebarOption Icon={FileCopyIcon} title="File browser" />
+            <SidebarOption Icon={ExpandLessIcon} title="Show less" />
+            <hr />
+            <SidebarOption Icon={ExpandMoreIcon} title="Channels" />
+            <hr />
+            <SidebarOption Icon={AddIcon} addChannelOption title="Add channel" />
+            {channels?.docs.map(doc => (
+                <SidebarOption key={doc.id} id={doc.id} title={doc.data().name} />
             ))}
         </SidebarContainer>
     );

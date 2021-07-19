@@ -1,30 +1,31 @@
 import { Button } from '@material-ui/core';
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import styled, { ThemeProvider } from 'styled-components';
-import { useTheme, StylesProvider, makeStyles } from "@material-ui/core/styles";
-import { db } from '../firebase';
+import { useTheme, StylesProvider } from "@material-ui/core/styles";
+import { auth, db } from '../firebase';
 import firebase from "firebase";
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 function ChatInput({ channelName, channelId, chatRef }) {
+    const [user] = useAuthState(auth);
+
     const muiTheme = useTheme();
     const [input, setInput] = useState("");
-    console.log(channelId);
+    
     const sendMessage = e => {
         //prevent refresh
         e.preventDefault();
-
         if (!channelId) {
             return false;
         }
-
         db.collection('rooms')
             .doc(channelId)
             .collection('messages')
             .add({
                 message: input,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                user: "Ndyabagye Henry",
-                userImage: "https://pbs.twimg.com/profile_images/1112588127431020544/WU2ClenS_400x400.jpg"
+                user: user.displayName,
+                userImage: user.photoURL
             });
 
         chatRef.current.scrollIntoView({
@@ -35,10 +36,9 @@ function ChatInput({ channelName, channelId, chatRef }) {
     }
 
     return (
-            <StylesProvider injectFirst>
-                <ThemeProvider theme={muiTheme}>
-        <ChatInputContainer>
-
+        <StylesProvider injectFirst>
+            <ThemeProvider theme={muiTheme}>
+                <ChatInputContainer>
                     <form>
                         <input
                             value={input}
@@ -48,9 +48,9 @@ function ChatInput({ channelName, channelId, chatRef }) {
                             SEND
                         </Button>
                     </form>
-        </ChatInputContainer>
-                </ThemeProvider>
-            </StylesProvider>
+                </ChatInputContainer>
+            </ThemeProvider>
+        </StylesProvider>
     )
 }
 
@@ -72,13 +72,13 @@ const ChatInputContainer = styled.div`
         border-radius:3px;
         padding:20px;
         outline:none;
-        ${props=>props.theme.breakpoints.up("sm")}{
+        ${props => props.theme.breakpoints.up("sm")}{
             width:40%;
         }
-        ${props=>props.theme.breakpoints.up("md")}{
+        ${props => props.theme.breakpoints.up("md")}{
             width:60%;
         }
-        ${props=>props.theme.breakpoints.up("sm")}{
+        ${props => props.theme.breakpoints.up("sm")}{
             width:60%;
         }
     }
