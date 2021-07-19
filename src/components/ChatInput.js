@@ -4,31 +4,37 @@ import styled from 'styled-components';
 import { db } from '../firebase';
 import firebase from "firebase";
 
-function ChatInput({channelName, roomId}) {
+function ChatInput({channelName, channelId}) {
     const [input , setInput] = useState("");
-    const inputRef = useRef(null);
+    console.log(channelId);
     const sendMessage = e =>{
         //prevent refresh
         e.preventDefault();
 
-        if(!roomId){
+        if(!channelId){
             return false;
         }
 
         db.collection('rooms')
-        .doc(roomId)
+        .doc(channelId)
         .collection('messages')
         .add({
             message:input,
-            timestamp:firebase.firestore.FieldValue.serverTimeStamp(),
-            user:"Ndyabagye Henry"
+            timestamp:firebase.firestore.FieldValue.serverTimestamp(),
+            user:"Ndyabagye Henry",
+            userImage:"https://pbs.twimg.com/profile_images/1112588127431020544/WU2ClenS_400x400.jpg"
         });
+
+        setInput("");
     }
 
     return (
         <ChatInputContainer>
             <form>
-                <input value={input} placeholder={`Message #ROOM`}/>
+                <input
+                value={input}
+                onChange={(e)=> setInput(e.target.value)}
+                placeholder={`Message ${channelName}`}/>
                 <Button hidden type="submit" onClick={sendMessage}>
                     SEND
                 </Button>
