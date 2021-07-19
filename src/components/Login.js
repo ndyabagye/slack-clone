@@ -16,7 +16,7 @@ function Login() {
            <LoginInnerContainer>
             <img src="https://cdn.mos.cms.futurecdn.net/SDDw7CnuoUGax6x9mTo7dd.jpg" alt="" />
             <h1>Sign in to Slack Clone</h1>
-            <p>henry.slack.com</p>
+            <p>space.slack.com</p>
             <Button type="submit" onClick={signIn}>
                 Sign in with Google
             </Button>
