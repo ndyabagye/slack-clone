@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from "styled-components";
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import CreateIcon from '@material-ui/icons/Create';
@@ -13,7 +13,6 @@ import AppsIcon from "@material-ui/icons/Apps";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AddIcon from "@material-ui/icons/Add";
-import MenuIcon from '@material-ui/icons/Menu';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { auth, db } from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -34,12 +33,7 @@ function Sidebar() {
                         {user.displayName}
                     </h3>
                 </SidebarInfo>
-                <MenuIconContainer>
-                    <MenuIcon />
-                </MenuIconContainer>
-                <MenuIconCreate>
-                    <CreateIcon />
-                </MenuIconCreate>
+                <CreateIcon />
             </SidebarHeader>
 
             <SidebarOption Icon={InsertCommentIcon} title="Threads" />
@@ -62,18 +56,6 @@ function Sidebar() {
 };
 
 export default Sidebar;
-
-const MenuIconContainer = styled.div`
-    @media screen and (min-width: 700px) {
-    display: none !important;
-  }
-`;
-
-const MenuIconCreate = styled.div`
-    @media screen and (max-width: 700px) {
-    display: none !important;
-  }
-`;
 
 const SidebarContainer = styled.div`
     color:white;

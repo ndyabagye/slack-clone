@@ -1,4 +1,4 @@
-import React, { useRef,useEffect } from 'react'
+import React, { useRef, useEffect } from 'react'
 import styled from "styled-components";
 import StarBorderOutlinedIcon from '@material-ui/icons/StarBorderOutlined';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
@@ -27,57 +27,66 @@ function Chat() {
             .orderBy("timestamp", "asc")
     );
 
-    useEffect(()=>{
+    useEffect(() => {
         chatRef?.current?.scrollIntoView({
-            behavior:"smooth",
+            behavior: "smooth",
         });
-    },[roomId, loading])
+    }, [roomId, loading])
 
     return (
         <ChatContainer>
             {roomDetails && roomMessages && (
-                     <>
-                     <Header>
-                         <HeaderLeft>
-                             <h4><strong>#{roomDetails?.data().name}</strong></h4>
-                             <StarBorderOutlinedIcon />
-                         </HeaderLeft>
-                         <HeaderRight>
-                             <p>
-                                 <InfoOutlinedIcon />
-                                 Details
-                             </p>
-                         </HeaderRight>
-                     </Header>
-                     <ChatMessages>
-                         {/* list of messages */}
-                         {roomMessages?.docs.map(doc => {
-                             const { message, timestamp, user, userImage } = doc.data();
-     
-                             return (
-                                 <Message
-                                     key={doc.id}
-                                     message={message}
-                                     timestamp={timestamp}
-                                     user={user}
-                                     userImage={userImage}
-                                 />
-                             )
-                         })}
-                         <ChatBottom ref={chatRef}/>
-                     </ChatMessages>
-                     <ChatInput
-                         chatRef={chatRef}
-                         channelName={roomDetails?.data().name}
-                         channelId={roomId}
-                     />
-                 </>     
-                )}
+                <>
+                    <Header>
+                        <HeaderLeft>
+                            <MenuIconContainer>
+                            </MenuIconContainer>
+                            <h4><strong>#{roomDetails?.data().name}</strong></h4>
+                            <StarBorderOutlinedIcon />
+                        </HeaderLeft>
+                        <HeaderRight>
+                            <p>
+                                <InfoOutlinedIcon />
+                                Details
+                            </p>
+                        </HeaderRight>
+                    </Header>
+                    <ChatMessages>
+                        {/* list of messages */}
+                        {roomMessages?.docs.map(doc => {
+                            const { message, timestamp, user, userImage } = doc.data();
+
+                            return (
+                                <Message
+                                    key={doc.id}
+                                    message={message}
+                                    timestamp={timestamp}
+                                    user={user}
+                                    userImage={userImage}
+                                />
+                            )
+                        })}
+                        <ChatBottom ref={chatRef} />
+                    </ChatMessages>
+                    <ChatInput
+                        chatRef={chatRef}
+                        channelName={roomDetails?.data().name}
+                        channelId={roomId}
+                    />
+                </>
+            )}
         </ChatContainer>
     )
 }
 
 export default Chat;
+
+const MenuIconContainer = styled.div`
+    @media screen and (min-width: 700px) {
+    display: none !important;
+  }
+`;
+
 
 const ChatBottom = styled.div`
 padding-bottom:200px;
