@@ -6,8 +6,9 @@ function Message({ message, timestamp, user, userImage }) {
         <MessageContainer>
             <img src={userImage} alt="" />
             <MessageInfo>
-                <h4>{user}{' '}</h4>
+                <h4>{user}{' '}
                 <span>{new Date(timestamp?.toDate()).toUTCString()}</span>
+                </h4>
                 <p>{message}</p>
             </MessageInfo>
         </MessageContainer>
@@ -30,8 +31,8 @@ const MessageContainer = styled.div`
 const MessageInfo = styled.div`
     padding-left: 10px;
 
-    >h4 >span{
-        color:gray;
+    > h4 > span {
+        color: gray;
         font-weight: 300;
         margin-left:4px;
         font-size: 10px;
