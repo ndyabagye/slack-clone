@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from "styled-components";
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import CreateIcon from '@material-ui/icons/Create';
@@ -34,8 +34,12 @@ function Sidebar() {
                         {user.displayName}
                     </h3>
                 </SidebarInfo>
-                <MenuIcon />
-                <CreateIcon />
+                <MenuIconContainer>
+                    <MenuIcon />
+                </MenuIconContainer>
+                <MenuIconCreate>
+                    <CreateIcon />
+                </MenuIconCreate>
             </SidebarHeader>
 
             <SidebarOption Icon={InsertCommentIcon} title="Threads" />
@@ -58,6 +62,18 @@ function Sidebar() {
 };
 
 export default Sidebar;
+
+const MenuIconContainer = styled.div`
+    @media screen and (min-width: 700px) {
+    display: none !important;
+  }
+`;
+
+const MenuIconCreate = styled.div`
+    @media screen and (max-width: 700px) {
+    display: none !important;
+  }
+`;
 
 const SidebarContainer = styled.div`
     color:white;
